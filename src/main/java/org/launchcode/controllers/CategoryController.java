@@ -25,25 +25,25 @@ public class CategoryController {
 
     @RequestMapping(value = "")
     public String index(Model model) {
-        categoryDao.findAll();
-        model.addAttribute("Category", categoryDao);
+        model.addAttribute("title", "Categories");
+        model.addAttribute("categories", categoryDao.findAll());
 
-        return "index";
+        return "category/index";
     }
 
     // add GET
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = "add", method = RequestMethod.GET)
     public String add(Model model) {
-        model.addAttribute("Add Category", new Category());
+        model.addAttribute("title", "Add Category");
+        model.addAttribute(new Category());
         return "category/add";
     }
 
     // add POST
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(Model model, @ModelAttribute @Valid Category category, Errors errors) {
         if (errors.hasErrors()) {
-            model.addAttribute("Add Category", new Category());
-            model.addAttribute(errors);
+            model.addAttribute("title", "Add Category");
             return "category/add";
         }
         categoryDao.save(category);
